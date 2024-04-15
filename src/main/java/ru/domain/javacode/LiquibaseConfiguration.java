@@ -22,6 +22,10 @@ public class LiquibaseConfiguration {
     @Bean
     @ConfigurationProperties("spring.datasource")
     public DataSource dataSource() {
-        return DataSourceBuilder.create().build();
+        return DataSourceBuilder.create()
+                .url(System.getenv("SPRING_DATASOURCE_URL"))
+                .username(System.getenv("SPRING_DATASOURCE_USERNAME"))
+                .password(System.getenv("SPRING_DATASOURCE_PASSWORD"))
+                .build();
     }
 }
