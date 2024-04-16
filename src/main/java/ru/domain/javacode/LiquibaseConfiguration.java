@@ -22,10 +22,14 @@ public class LiquibaseConfiguration {
     @Bean
     @ConfigurationProperties("spring.datasource")
     public DataSource dataSource() {
+        String url = System.getenv("SPRING_DATASOURCE_URL");
+        String username = System.getenv("SPRING_DATASOURCE_USERNAME");
+        String password = System.getenv("SPRING_DATASOURCE_PASSWORD");
+
         return DataSourceBuilder.create()
-                .url(System.getenv("SPRING_DATASOURCE_URL"))
-                .username(System.getenv("SPRING_DATASOURCE_USERNAME"))
-                .password(System.getenv("SPRING_DATASOURCE_PASSWORD"))
+                .url("jdbc:postgresql://db:5432/javacode")
+                .username("postgres")
+                .password("postgres")
                 .build();
     }
 }

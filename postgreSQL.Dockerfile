@@ -1,5 +1,2 @@
 FROM postgres:14.2
-ENV POSTGRES_USER=root
-ENV POSTGRES_PASSWORD=root
-ENV POSTGRES_DB=javacode
-RUN echo "SET GLOBAL time_zone = '+3:00';"
+ENV TZ=Europe/Moscow

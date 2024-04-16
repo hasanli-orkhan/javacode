@@ -6,23 +6,22 @@ services:
     build:
       context: .
       dockerfile: app.Dockerfile
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/javacode
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
     ports:
       - "8080:8080"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:3306/javacode
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root
+    command: ["./wait-for-it.sh", "db:5432", "java", "-jar", "/app/app.war"]
 
   db:
     build:
       context: .
       dockerfile: postgreSQL.Dockerfile
     environment:
-      MYSQL_ROOT_USER: root
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: javacode
-      TZ: Europe/Moscow
-      command: --init-file db/initDB.sql
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: javacode
     ports:
-      - "3306:3306"
+      - "5432:5432"
 
