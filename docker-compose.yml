@@ -12,16 +12,18 @@ services:
       - SPRING_DATASOURCE_PASSWORD=postgres
     ports:
       - "8080:8080"
-    command: ["./wait-for-it.sh", "db:5432", "java", "-jar", "/app/app.war"]
+#    command: ["./wait-for-it.sh", "db:5432", "java", "-jar", "/app/app.war"]
 
-  db:
+  psql:
     build:
       context: .
       dockerfile: postgreSQL.Dockerfile
+    container_name: db
     environment:
+      POSTGRES_DB: javacode
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: javacode
     ports:
       - "5432:5432"
-
+    volumes:
+      - ./db/initDB.sql:/docker-entrypoint-initdb.d/initDB.sql

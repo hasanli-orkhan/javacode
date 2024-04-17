@@ -28,6 +28,7 @@ public class LiquibaseConfiguration {
 
         return DataSourceBuilder.create()
                 .url("jdbc:postgresql://db:5432/javacode")
+                .driverClassName("org.postgresql.Driver")
                 .username("postgres")
                 .password("postgres")
                 .build();

@@ -1,2 +1,2 @@
-FROM postgres:14.2
+FROM postgres:16
 ENV TZ=Europe/Moscow
