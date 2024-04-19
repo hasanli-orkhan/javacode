@@ -2,7 +2,7 @@ spring:
   liquibase:
     enabled: false
   datasource:
-    url: jdbc:postgresql://db:5432/javacode
+    url: jdbc:postgresql://localhost:5434/javacode
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver

@@ -1,25 +1,75 @@
-version: "3"
+#version: "3"
+#
+#services:
+#
+#  app:
+#    build:
+#      context: .
+#      dockerfile: app.Dockerfile
+#    ports:
+#      - "8080:8080"
+#    command: ["./wait-for-it.sh", "db:5432", "java", "-jar", "/app/app.war"]
+#
+#  psql:
+#    build:
+#      context: .
+#      dockerfile: postgreSQL.Dockerfile
+#    container_name: db
+#    environment:
+#      POSTGRES_DB: javacode
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - ./db/initDB.sql:/docker-entrypoint-initdb.d/initDB.sql
 
+version: '3.8'
 services:
 
-  app:
+  # Database
+  app-db:
+    container_name: app-db
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: javacode
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+    expose:
+      - 5432
+    ports:
+      - "5434:5434"
+    networks:
+      db-net:
+
+  # custom Application
+  custom-app:
+    container_name: custom-app
     build:
       context: .
       dockerfile: app.Dockerfile
     ports:
       - "8080:8080"
-    command: ["./wait-for-it.sh", "db:5432", "java", "-jar", "/app/app.war"]
-
-  psql:
-    build:
-      context: .
-      dockerfile: postgreSQL.Dockerfile
-    container_name: db
     environment:
-      POSTGRES_DB: javacode
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./db/initDB.sql:/docker-entrypoint-initdb.d/initDB.sql
+      - spring.profiles.active=dev
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://app-db/javacode
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    networks:
+      - db-net
+    depends_on:
+      app-db:
+        condition: service_healthy
+
+
+networks:
+  db-net:
+    driver: bridge
