@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.math.BigDecimal;
+import java.util.Locale;
 import java.util.UUID;
 
 @Service
@@ -24,7 +25,7 @@ public class WalletService {
 
     @Transactional
     public WalletResponse processWalletOperation(WalletRequest request) {
-        Wallet wallet = walletRepository.findByIdWithLock(request.getWalletId())
+        Wallet wallet = walletRepository.findById(request.getWalletId())
                 .orElseThrow(() -> new WalletNotFoundException("Wallet not found"));
 
         BigDecimal updatedBalance;
@@ -45,7 +46,7 @@ public class WalletService {
         return new WalletResponse("Operation successful", updatedBalance);
     }
 
-    public BigDecimal getWalletBalance(UUID walletId) {
+    public BigDecimal getWalletBalance(Long walletId) {
         Wallet wallet = walletRepository.findById(walletId)
                 .orElseThrow(() -> new WalletNotFoundException("Wallet not found"));
         return wallet.getBalance();

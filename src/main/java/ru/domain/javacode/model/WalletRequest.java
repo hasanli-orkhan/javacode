@@ -5,21 +5,21 @@ import java.util.UUID;
 
 public class WalletRequest {
 
-    private UUID walletId;
+    private Long walletId;
     private OperationType operationType;
     private BigDecimal amount;
 
-    public WalletRequest(UUID walletId, OperationType operationType, BigDecimal amount) {
+    public WalletRequest(Long walletId, OperationType operationType, BigDecimal amount) {
         this.walletId = walletId;
         this.operationType = operationType;
         this.amount = amount;
     }
 
-    public UUID getWalletId() {
+    public Long getWalletId() {
         return walletId;
     }
 
-    public void setWalletId(UUID walletId) {
+    public void setWalletId(Long walletId) {
         this.walletId = walletId;
     }
 

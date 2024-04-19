@@ -23,7 +23,7 @@ public class WalletController {
     }
 
     @GetMapping("/wallets/{walletId}")
-    public ResponseEntity<WalletResponse> getWalletBalance(@PathVariable UUID walletId) {
+    public ResponseEntity<WalletResponse> getWalletBalance(@PathVariable Long walletId) {
         try {
             BigDecimal balance = walletService.getWalletBalance(walletId);
             return ResponseEntity.ok(new WalletResponse("Success", balance));

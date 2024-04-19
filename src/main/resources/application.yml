@@ -2,7 +2,7 @@ spring:
   liquibase:
     enabled: false
   datasource:
-    url: jdbc:postgresql://localhost:5434/javacode
+    url: jdbc:postgresql://localhost:5432/delete_me
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -10,5 +10,5 @@ spring:
     show-sql: true
     generate-ddl: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-#    hibernate:
-#      ddl-auto: none
+    hibernate:
+      ddl-auto: update
